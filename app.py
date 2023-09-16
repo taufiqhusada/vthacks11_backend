@@ -3,6 +3,7 @@ from flask import Flask, request
 from controller.jobdesc_to_listskills import get_listskills_from_jobdesc
 from controller.youtube_search import get_video_links_by_keyword
 from controller.generate_project import generate_project_idea
+from controller.youtube_search import  get_transcript
 
 from util.response import  convert_to_json_resp
 from config.config import Config
@@ -38,3 +39,10 @@ def project():
     skill = request.json['skill']
     keypoints = request.json['key_points']
     return convert_to_json_resp(generate_project_idea(skill, keypoints, app.config))
+
+
+@app.route('/summary', methods=['POST'])
+def summary():
+    list_id = request.json['input']
+    res = get_transcript(list_id, app.config)
+    return convert_to_json_resp(res)
