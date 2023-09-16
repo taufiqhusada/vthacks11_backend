@@ -1,14 +1,16 @@
 from config.openai_connector import init_openai_config
 
-def get_listskills_from_jobdesc(content):
-    openai = init_openai_config()
+def get_listskills_from_jobdesc(content, config):
 
-    prompt = f"""Can you help me list of important job skills from the given job desc delimited by triple backtick. 
-                Make it short and separated for example 'C++\nJava\nBackend Development.' 
-                if the skills is long, just take the key points.  ```{content}```"""
+    openai = init_openai_config(config['openai_api_key'])
+
+    prompt = f"""Your task is to list of important required skills based on the given job description delimited by triple backticks. 
+                Make it short and separated by for example 'C++\nJava\nBackend Development'  
+                if the skills is long, just take the key points.  
+                Job Description: ```{content}```"""
 
     response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
+    model=config['openai_model'],
     messages=[
         {
         "role": "user",
@@ -18,6 +20,5 @@ def get_listskills_from_jobdesc(content):
     )
 
     response = response["choices"][0]["message"]["content"]
-    print(response)
     # Try to print out the result
     return response.split('\n')

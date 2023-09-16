@@ -1,2 +1,5 @@
 Flask==2.2.2
 openai==0.28.0
+google-api-python-client
+google-auth-oauthlib 
+google-auth-httplib2
