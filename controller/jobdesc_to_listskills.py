@@ -4,8 +4,8 @@ def get_listskills_from_jobdesc(content, config):
 
     openai = init_openai_config(config['openai_api_key'])
 
-    prompt = f"""Your task is to list of important required skills based on the given job description delimited by triple backticks. 
-                Make it short and separated by for example 'C++\nJava\nBackend Development'  
+    prompt = f"""Your task is to list important technical skills based on the given job description delimited by triple backticks. 
+                Make it short and separated for example 'C++\nJava\nBackend Development'  
                 if the skills is long, just take the key points.  
                 Job Description: ```{content}```"""
 

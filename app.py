@@ -2,6 +2,8 @@
 from flask import Flask, request
 from controller.jobdesc_to_listskills import get_listskills_from_jobdesc
 from controller.youtube_search import get_video_links_by_keyword
+from controller.generate_project import generate_project_idea
+
 from util.response import  convert_to_json_resp
 from config.config import Config
 
@@ -9,7 +11,7 @@ app = Flask(__name__)
 app_config = Config()
 app.config["openai_api_key"] = app_config.get_config_openai()
 app.config["youtube_api_key"] = app_config.get_config_youtube_api()
-app.config["openai_model"] = "gpt-3.5-turbo"
+app.config["openai_model"] = "gpt-4"
 
 @app.route("/")
 def hello_world():
@@ -30,3 +32,9 @@ def search():
     result = get_video_links_by_keyword(keyword, app.config)
     return convert_to_json_resp(result)
     
+# generate project idea from given skill and keypoints
+@app.route('/project', methods=['POST'])
+def project():
+    skill = request.json['skill']
+    keypoints = request.json['key_points']
+    return convert_to_json_resp(generate_project_idea(skill, keypoints, app.config))
