@@ -8,7 +8,11 @@ from controller.youtube_search import  get_transcript
 from util.response import  convert_to_json_resp
 from config.config import Config
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
+
 app_config = Config()
 app.config["openai_api_key"] = app_config.get_config_openai()
 app.config["youtube_api_key"] = app_config.get_config_youtube_api()
@@ -22,6 +26,7 @@ def hello_world():
 @app.route('/skills', methods=['POST'])
 def skills():
     jobdesc = request.json['input']
+    print("in")
 
     result = get_listskills_from_jobdesc(jobdesc, app.config)
     return convert_to_json_resp(result)

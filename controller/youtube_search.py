@@ -6,14 +6,12 @@ from config.openai_connector import init_openai_config
 def get_summary_from_transcript(transcript, config):
     openai = init_openai_config(config['openai_api_key'])
 
-    prompt = f"""You have been tasked with creating a concise summary of a
-                YouTube video using its transcription.Make a summary of the transcript.
-                Create 10 bullet points that summarize the key points or important moments from the video's
-                transcription.In addition to the bullet points, extract the most important keywords and any
-                complex words not known to the average reader aswell as any acronyms mentioned. For each keyword
-                and complex word, provide an explanation and definition based on its occurrence in the transcription.
-                Please ensure that the summary, bullet points, and explanations fit within the 500-word limit, while still
-                offering a comprehensive and clear understanding of the video's content. Use the given transcript delimited by triple backticks:
+    prompt = f"""You have been tasked with creating a concise summary on what you learned from a 
+                YouTube video using its transcription.
+                Create 10 bullet points that summarize the key points or important concept from what you learned fron the video's
+                transcription. Please ensure that the bullet points, and explanations fit within the 500-word limit, while still
+                offering a comprehensive and clear understanding of the video's content. 
+                every key points must be separated with '\n' without any numbering or any '-'. The key points is based on the given transcript delimited by triple backticks:
                 transcript: ```{transcript}```"""
 
     response = openai.ChatCompletion.create(
@@ -26,7 +24,7 @@ def get_summary_from_transcript(transcript, config):
     ],
     )
 
-    return response["choices"][0]["message"]["content"]    
+    return response["choices"][0]["message"]["content"].split('\n')   
 
 def get_transcript(video_id_list, config):
     transcript_list, unretrievable_videos = YouTubeTranscriptApi.get_transcripts(video_id_list, continue_after_error=True)
@@ -38,7 +36,7 @@ def get_transcript(video_id_list, config):
         text_list = []
         for i in srt:
             text_list.append(i['text'])
-        full_transcript = (' ').join(text_list)[0:75000]
+        full_transcript = (' ').join(text_list)[0:10000]
 
         transcript_dict[video_id]= get_summary_from_transcript(full_transcript, config)
         
