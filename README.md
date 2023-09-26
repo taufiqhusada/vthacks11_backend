@@ -1,6 +1,7 @@
 ## How to Setup
 1. Install Python 3
 2. `pip install -r requirements.txt`
+3. Copy file `config.ini` from [this drive](https://drive.google.com/file/d/1mVYRa4iQDk_R-8dT0MX-4zNT4zgJ8e0B/view?usp=drive_link) to folder `config/`. This file consist of API keys
 
 ## How to run
 1. `flask --app app run`  
