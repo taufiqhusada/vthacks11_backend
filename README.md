@@ -1,3 +1,7 @@
+# Backend code for Upskill.AI
+Winning an award in a hackathon VT Hacks.
+Check out more on this: https://devpost.com/software/upskill-ai
+
 ## How to Setup
 1. Install Python 3
 2. `pip install -r requirements.txt`
